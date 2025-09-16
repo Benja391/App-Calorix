@@ -1,5 +1,28 @@
-# Vue 3 + Vite
+# 🍽️ Calorix - App de Control de Calorías
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+**Calorix** es una aplicación fullstack para registrar, visualizar y gestionar la ingesta de calorías diarias.  
+El proyecto incluye un **frontend en Vue.js + Vite** y un **backend en Node.js/Express con MongoDB**.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+---
+
+## 🚀 Tecnologías utilizadas
+
+### Frontend
+- ⚡ [Vue.js 3](https://vuejs.org/) con [Vite](https://vitejs.dev/)  
+- 🎨 [TailwindCSS](https://tailwindcss.com/) para estilos  
+- 🔥 Firebase (autenticación y base de datos en tiempo real, si aplica)  
+
+### Backend
+- 🟢 [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/)  
+- 🗄️ [MongoDB](https://www.mongodb.com/) (Atlas o local)  
+- 🔑 JWT para autenticación  
+- 🌍 API REST  
+
+---
+
+## ⚙️ Instalación y ejecución
+
+### 🔹 Clonar el repositorio
+```bash
+git clone https://github.com/Benja391/App-Calorix.git
+cd App-Calorix
