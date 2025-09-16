@@ -1,0 +1,56 @@
+Descripción de la App
+Calorix es una aplicación web desarrollada con el stack Vue.js + Node.js + Express + MongoDB, diseñada para ayudar 
+a los usuarios a llevar un control diario de las calorías que consumen. Los usuarios 
+pueden registrar comidas con sus respectivas calorías, y la app se encarga de almacenarlas
+en una base de datos y mostrarlas en una lista. Además, si el usuario escribe una comida 
+conocida, la aplicación puede autocompletar las calorías basándose en una base de datos 
+local o consultando una API de nutrición externa.
+
+📘 Paso a paso para desarrollar la app Calorix
+txt
+Copiar
+Editar
+1. Crear la estructura del proyecto:
+   - Carpeta frontend: donde vive el proyecto Vue.js
+   - Carpeta backend: donde está el servidor con Node.js, Express y MongoDB
+
+2. Backend (calorix-backend):
+   - Inicializar proyecto: npm init -y
+   - Instalar dependencias: express, cors, mongoose
+   - Crear el archivo server.js para levantar el servidor y conectar con MongoDB
+   - Crear un modelo de comida (comida.model.js) con mongoose (campos: nombre y calorias)
+   - Crear las rutas (comidas.routes.js) para manejar:
+       - GET /api/comidas → obtener comidas
+       - POST /api/comidas → agregar comida
+
+3. Conectar a MongoDB:
+   - Usamos `mongoose.connect()` con la URI local de MongoDB
+   - Se corrigió un error de "base de datos ya existe con diferente capitalización"
+     cambiando el nombre de la DB a coincidir con el que ya existía
+
+4. Frontend (calorix-frontend):
+   - Crear proyecto Vue.js (con Vite o Vue CLI)
+   - Crear un componente `ComidasList.vue` con:
+     - Formulario para ingresar nombre y calorías
+     - Lista que muestra comidas ya guardadas
+     - Eventos para agregar comida (`@submit.prevent`)
+     - Carga de comidas en `onMounted()`
+
+5. Conexión frontend-backend:
+   - Se usó `axios` para hacer peticiones GET y POST a `http://localhost:3000/api/comidas`
+   - Se agregó la librería `axios` con: `npm install axios`
+
+6. Autocompletado de calorías:
+   - Se importó una función `obtenerCaloriasDesdeAPI` desde un archivo utilitario
+   - Se agregó una base de datos local de alimentos con calorías
+   - Se creó la función `buscarCalorias()` que:
+       - Busca si el alimento existe en la base local
+       - Si no, consulta la API de nutrición
+     Esta función se ejecuta al salir del campo nombre (`@blur`)
+
+7. Estilo:
+   - Se usó TailwindCSS para aplicar estilos rápidos y responsivos en los formularios y listas
+
+8. Resultado:
+   - El usuario puede ingresar una comida, se autocompletan las calorías (si están disponibles)
+     y se guarda en la base de datos para ser listada en la interfaz

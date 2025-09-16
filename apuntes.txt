@@ -1,0 +1,90 @@
+cd "C:/Users/Pato/Documents/Calorix - App de control de Calorias"
+
+Apuntes proyecto Calorix - App Control de Calorías
+1. Idea del proyecto
+Aplicación para controlar calorías consumidas y gastadas durante el día, registrando comidas y entrenamientos, y mostrando el balance final.
+
+2. Tecnologías usadas
+Backend: Node.js + Express
+
+Base de datos: MongoDB Atlas
+
+Frontend: Vue 3 + Vite + Tailwind CSS
+
+3. Configuración Backend
+Crear carpeta calorix-backend
+
+
+/////////////////////////////////////////////////////////////////
+
+
+3: Inicializar proyecto Node.js
+
+Instalar dependencias:
+
+bash
+Copiar
+Editar
+npm init -y
+npm install express mongoose cors
+Configurar conexión a MongoDB Atlas usando la URL:
+
+bash
+Copiar
+Editar
+mongodb+srv://usuario:contraseña@cluster0.mongodb.net/...
+Habilitar CORS en Express para permitir peticiones desde frontend.
+
+
+//////////////////////////////////////////////////////////
+
+
+4: Ejecutar backend:
+
+cd "C:\Users\Pato\Documents\Calorix - App de control de Calorias\calorix-backend"
+node server.js
+
+
+/////////////////////////////////////////////////////////////
+
+
+5: Ejecutar Frontend
+
+cd "/c/Users/Pato/Documents/Calorix - App de control de Calorias/calorix-frontend"
+npm run dev 
+
+
+PARA EL cmd
+"C:\Users\Pato\Documents\Calorix - App de control de Calorias\calorix-frontend"
+
+/////////////////////////////////////////////////////////////
+
+
+6: Ejecutar base en la cmd 
+
+mongosh "mongodb+srv://cluster0.1si9yrq.mongodb.net/caloriDB" --username benjaminbosch
+Poner la contraseña
+
+
+7. Organización del proyecto
+Calorix/
+├── calorix-backend/
+│   └── (código backend)
+├── calorix-frontend/
+│   └── (código frontend)
+└── apuntes.txt
+
+
+-------------->>>>>>>>>>>>><
+
+
+Credenciales API EDAMAM:
+Email: benjibbosch@gmail.com
+Contraseña: Esporas123456789!
+
+Credenciales API Nutritionix Free:
+Email: benjabosch5@gmail.com
+nombre de usuario: benj123456
+Contraseña: k6hqE!!d6j4jMZ!
+
+
