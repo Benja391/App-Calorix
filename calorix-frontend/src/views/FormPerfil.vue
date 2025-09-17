@@ -1,4 +1,4 @@
-<template>
+<template  v-cloak>
   <div class="max-w-md mx-auto mt-16 p-8 bg-white rounded shadow">
     <h2 class="text-2xl font-bold mb-6 text-center">Completar perfil</h2>
 

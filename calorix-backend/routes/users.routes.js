@@ -76,5 +76,22 @@ router.post('/:id/profile', async (req, res) => {
   }
 });
 
+router.get('/:id/profile', async (req, res) => {
+  console.log('📩 [BACK] GET /api/users/' + req.params.id + '/profile')
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user || !user.profile) {
+      console.warn('⚠️ [BACK] Perfil no existe para user:', req.params.id)
+      return res.status(404).json({ error: 'Perfil no encontrado' })
+    }
+    console.log('✅ [BACK] Encontrado perfil:', user.profile)
+    return res.json(user.profile)
+  } catch (err) {
+    console.error('❌ [BACK] Error interno GET profile:', err)
+    return res.status(500).json({ error: 'Error interno' })
+  }
+})
+
+
 
 module.exports = router;

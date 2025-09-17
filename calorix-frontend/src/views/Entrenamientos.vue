@@ -1,101 +1,143 @@
-<template>
-  <div class="p-6 max-w-2xl mx-auto">
-    <!-- Formulario -->
-    <form @submit.prevent="agregarEntrenamiento" 
-          class="space-y-4 bg-white/80 shadow-lg rounded-xl p-6 border border-gray-200">
+<template v-cloak>
+ <div class="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg overflow-hidden">
       
-      <h1 class="text-3xl font-bold mb-6 text-purple-800">Registrar Entrenamiento</h1>
-
-      <!-- Nombre -->
-      <div>
-        <label class="block font-medium text-gray-700 mb-1">Nombre del entrenamiento:</label>
-        <input 
-          v-model="nombre"
-          type="text"
-          class="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-          placeholder="Ej: correr, natación, ciclismo"
-          required 
-        />
+      <!-- Cabecera degradada -->
+      <div class="h-32 bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center">
+        <h1 class="text-3xl font-bold text-white">Registrar entrenamientos</h1>
       </div>
+      
+      <div class="px-8 py-6 space-y-8">
+        <!-- Formulario -->
+        <form
+          @submit.prevent="agregarEntrenamiento"
+          class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm space-y-6"
+        >
+         
 
-        <!-- Duración flexible -->
-<div>
-  <label class="block font-medium text-gray-700 mb-2">Duración:</label>
-  <div class="flex space-x-4">
-    <!-- Horas -->
-    <div class="flex-1">
-      <label class="block text-sm text-gray-600 mb-1">Horas</label>
-      <input 
-        v-model.number="horas"
-        type="number"
-        min="0"
-        class="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-        placeholder="Ej: 1"
-      />
-    </div>
+          <!-- Nombre -->
+          <div>
+            <label class="block text-gray-700 mb-1 font-medium">
+              Nombre del entrenamiento
+            </label>
+            <input
+              v-model="nombre"
+              type="text"
+              required
+              placeholder="Ej: correr, natación, ciclismo"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2
+                     focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
 
-    <!-- Minutos -->
-    <div class="flex-1">
-      <label class="block text-sm text-gray-600 mb-1">Minutos</label>
-      <input 
-        v-model.number="minutos"
-        type="number"
-        min="0"
-        max="59"
-        class="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-        placeholder="Ej: 30"
-      />
-    </div>
-  </div>
-</div>
+          <!-- Duración flexible -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">
+              Duración
+            </label>
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Horas -->
+              <div>
+                <label class="block text-sm text-gray-600 mb-1">Horas</label>
+                <input
+                  v-model.number="horas"
+                  type="number"
+                  min="0"
+                  placeholder="Ej: 1"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2
+                         focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              
+              <!-- Minutos -->
+              <div>
+                <label class="block text-sm text-gray-600 mb-1">Minutos</label>
+                <input
+                  v-model.number="minutos"
+                  type="number"
+                  min="0"
+                  max="59"
+                  placeholder="Ej: 30"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2
+                         focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+            </div>
+          </div>
 
-      <!-- Descripción -->
-      <div>
-        <label class="block font-medium text-gray-700 mb-1">Descripción / Intensidad:</label>
-        <textarea 
-          v-model="descripcion"
-          rows="2"
-          class="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-          placeholder="Ej: entrenamiento suave, natación intensa, correr rápido..."
-        ></textarea>
+          <!-- Descripción -->
+          <div>
+            <label class="block text-gray-700 mb-1 font-medium">
+              Descripción / Intensidad
+            </label>
+            <textarea
+              v-model="descripcion"
+              rows="2"
+              placeholder="Ej: entrenamiento suave, natación intensa..."
+              class="w-full border border-gray-300 rounded-lg px-4 py-2
+                     focus:outline-none focus:ring-2 focus:ring-purple-500"
+            ></textarea>
+          </div>
+
+          <!-- Botón -->
+          <button
+            type="submit"
+            class="w-full bg-purple-600 text-white py-2 rounded-full
+                   hover:bg-purple-700 transition-shadow shadow-md"
+          >
+            Agregar
+          </button>
+        </form>
+
+        <hr class="border-gray-200" />
+
+        <!-- Lista de entrenamientos -->
+        <div>
+          <h2 class="text-2xl font-semibold text-purple-700 text-center mb-4">
+            📋 Entrenamientos registrados
+          </h2>
+
+          <ul v-if="entrenamientos.length" class="space-y-4">
+            <li
+              v-for="entrenamiento in entrenamientos"
+              :key="entrenamiento._id"
+              class="bg-white border border-gray-200 rounded-lg p-4 flex
+                     justify-between items-center shadow-sm"
+            >
+              <span class="flex-1 font-medium text-gray-800">
+                🏋️ {{ entrenamiento.nombre }}
+                <span class="text-gray-500 ml-2">
+                  ({{ entrenamiento.duracion }} min - {{ entrenamiento.calorias }} cal)
+                </span>
+              </span>
+              <button
+                @click="eliminarEntrenamiento(entrenamiento._id)"
+                class="text-red-500 hover:text-red-600 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </li>
+          </ul>
+
+          <p v-else class="text-gray-500 italic text-center">
+            No hay entrenamientos registrados.
+          </p>
+        </div>
       </div>
-
-      <!-- Botón -->
-      <button 
-        type="submit" 
-        class="bg-purple-600 text-white px-5 py-2 rounded-lg hover:bg-purple-700 transition font-medium shadow-md w-full"
-      >
-        Agregar
-      </button>
-    </form>
-
-    <hr class="my-8 border-black" />
-
-    <!-- Lista de entrenamientos -->
-<h2 class="text-2xl font-semibold mb-4 text-purple-700">📋 Entrenamientos registrados</h2>
-<ul v-if="entrenamientos.length" class="space-y-3">
-  <li 
-    v-for="entrenamiento in entrenamientos" 
-    :key="entrenamiento._id" 
-    class="bg-white/80 shadow p-4 rounded-lg border border-gray-200 flex justify-between items-center"
-  >
-    <span class="font-medium">
-      🏋️ {{ entrenamiento.nombre }}  
-      <span class="text-gray-500">
-        ({{ entrenamiento.duracion }} min - {{ entrenamiento.calorias }} cal)
-      </span>
-    </span>
-
-    <!-- Botón eliminar -->
-    <button 
-      @click="eliminarEntrenamiento(entrenamiento._id)" 
-      class="bg-red-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-red-600 transition"
-    >
-      Eliminar
-    </button>
-  </li>
-</ul>
-<p v-else class="text-gray-600 italic">No hay entrenamientos registrados.</p>
+    </div>
   </div>
 </template>
 

@@ -1,78 +1,110 @@
-<template>
-  <div class=" min-h-screen flex items-center justify-center">
-    <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8">
-      <!-- Título -->
-      <h1 class="text-3xl font-bold mb-6 text-purple-800">
-        Registrar Comida
-      </h1>
-
-      <!-- Formulario -->
-      <form @submit.prevent="agregarComida" class="space-y-5">
-        <!-- Nombre -->
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">Nombre</label>
-          <input 
-            v-model="nombre"
-            @blur="buscarCalorias"
-            type="text" 
-            class="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="Ej: arroz, empanadas, osobuco"
-            required 
-          />
-        </div>
-
-        <!-- Calorías -->
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
-            Calorías <span class="text-gray-400">(opcional)</span>
-          </label>
-          <input 
-            v-model.number="calorias" 
-            type="number" 
-            class="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="Ej: 250"
-          />
-          <!-- Mensaje de advertencia -->
-          <div v-if="mensajeError" class="mt-2 p-3 rounded-lg bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 text-sm shadow-sm">
-            {{ mensajeError }}
+<template v-cloak>
+  <div class="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg overflow-hidden">
+      
+      <!-- Cabecera degradada -->
+      <div class="h-32 bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center">
+        <h1 class="text-3xl font-bold text-white">Registrar Comida</h1>
+      </div>
+      
+      <div class="px-8 py-6 space-y-8">
+        <!-- Formulario -->
+        <form
+          @submit.prevent="agregarComida"
+          class="bg-gray-50 border border-gray-200 rounded-lg p-6 shadow-sm space-y-6"
+        >
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Nombre</label>
+            <input
+              v-model="nombre"
+              @blur="buscarCalorias"
+              type="text"
+              required
+              placeholder="Ej: arroz, empanadas, osobuco"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2
+                     focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
           </div>
-        </div>
-
-        <!-- Botón Guardar -->
-        <button 
-          type="submit" 
-          class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition shadow-md"
-        >
-          Guardar
-        </button>
-      </form>
-
-      <hr class="my-8 border-black" />
-
-      <!-- Lista de comidas -->
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Comidas registradas</h2>
-      <ul v-if="comidas.length" class="space-y-3">
-        <li 
-          v-for="comida in comidas" 
-          :key="comida._id" 
-          class="flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow-sm"
-        >
-          <span class="text-gray-700 font-medium">
-            {{ comida.nombre }} - 
-            <span v-if="comida.calorias !== null">{{ comida.calorias }} cal</span>
-            <span v-else class="text-gray-400 italic">(sin calorías)</span>
-          </span>
-
-          <!-- Botón eliminar -->
-          <button 
-            @click="eliminarComida(comida._id)" 
-            class="bg-red-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-red-600 transition"
+  
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+              Calorías <span class="text-gray-400">(opcional)</span>
+            </label>
+            <input
+              v-model.number="calorias"
+              type="number"
+              placeholder="Ej: 250"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2
+                     focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <div
+              v-if="mensajeError"
+              class="mt-2 p-3 rounded-lg bg-yellow-100 border-l-4 border-yellow-500
+                     text-yellow-700 text-sm shadow-sm"
+            >
+              {{ mensajeError }}
+            </div>
+          </div>
+  
+          <button
+            type="submit"
+            class="w-full bg-purple-600 text-white py-3 rounded-full
+                   hover:bg-purple-700 transition-shadow shadow-md"
           >
-            Eliminar
+            Guardar
           </button>
-        </li>
-      </ul>
-      <p v-else class="text-gray-500 italic">No hay comidas registradas.</p>
+        </form>
+  
+        <hr class="border-gray-200" />
+  
+        <!-- Lista de comidas -->
+        <div>
+          <h2 class="text-2xl font-semibold text-purple-700 text-center mb-4">
+            Comidas registradas
+          </h2>
+  
+          <ul v-if="comidas.length" class="space-y-4">
+            <li
+              v-for="comida in comidas"
+              :key="comida._id"
+              class="bg-white border border-gray-200 rounded-lg p-4 flex
+                     justify-between items-center shadow-sm"
+            >
+              <span class="text-gray-800 font-medium">
+                {{ comida.nombre }} –
+                <span v-if="comida.calorias !== null" class="text-gray-600">
+                  {{ comida.calorias }} cal
+                </span>
+                <span v-else class="text-gray-400 italic">(sin calorías)</span>
+              </span>
+  
+              <button
+                @click="eliminarComida(comida._id)"
+                class="text-red-500 hover:text-red-600 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </li>
+          </ul>
+  
+          <p v-else class="text-gray-500 italic text-center">
+            No hay comidas registradas.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -1,4 +1,4 @@
-<template>
+<template  v-cloak>
   <div class="max-w-md mx-auto mt-16 p-8 bg-white rounded shadow">
     <h2 class="text-2xl font-bold mb-6 text-center">Iniciar sesión</h2>
 
@@ -54,6 +54,7 @@
 
 <script>
 import axios from 'axios';
+import { auth } from '../auth';
 
 export default {
   name: 'Login',
@@ -67,25 +68,40 @@ export default {
   },
   methods: {
     async submitLogin() {
-      this.error = null;
+      this.error   = null;
       this.loading = true;
 
       try {
-        const { data } = await axios.post('http://localhost:3000/api/users/login', {
-          email: this.email,
-          password: this.password
-        });
+        // 1) Login y guardado en localStorage
+        const { data } = await axios.post(
+          'http://localhost:3000/api/users/login',
+          { email: this.email, password: this.password }
+        );
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.userId);
 
-        // Redirige al formulario de perfil si es la primera vez,
-        // o a Comidas si ya completó perfil
-        this.$router.push('/perfil');
+        // 2) Sincronizar estado global reactivo
+        auth.token  = data.token;
+        auth.userId = data.userId;
+
+        // 3) Chequear si existe perfil
+        try {
+          await axios.get(
+            `http://localhost:3000/api/users/${data.userId}/profile`,
+            { headers: { Authorization: `Bearer ${data.token}` } }
+          );
+          this.$router.push('/comidas');
+        } catch (errProfile) {
+          if (errProfile.response?.status === 404) {
+            this.$router.push('/perfil');
+          } else {
+            this.$router.push('/comidas');
+          }
+        }
       } catch (err) {
         this.error =
-          err.response?.data?.error ||
-          'Ocurrió un error al iniciar sesión';
+          err.response?.data?.error || 'Ocurrió un error al iniciar sesión';
       } finally {
         this.loading = false;
       }
@@ -93,5 +109,3 @@ export default {
   }
 };
 </script>
-
-
