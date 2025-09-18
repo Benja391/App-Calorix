@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { auth } from '../auth'
 import ComidasList from '../views/ComidasList.vue'
 import Entrenamientos from '../views/Entrenamientos.vue'
 import Login from '../views/Login.vue'
@@ -6,6 +7,8 @@ import Register from  '../views/register.vue'
 import Perfil from '../views/FormPerfil.vue'
 import MiPerfil from '../views/MiPerfil.vue'
 import Home from '../views/Home.vue'
+
+
 
 
 const routes = [
@@ -23,5 +26,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+
 
 export default router

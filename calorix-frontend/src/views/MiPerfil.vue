@@ -35,19 +35,19 @@
           <div class="grid grid-cols-2 gap-4 text-gray-600">
             <div class="flex items-center">
               <!-- Puedes reemplazar estos spans con SVGs de Heroicons si prefieres -->
-              <span class="material-icons-outlined mr-2 text-purple-500">cake</span>
+              <span class=" mr-2 text-purple-500">cake</span>
               <span>{{ perfil.edad }} años</span>
             </div>
             <div class="flex items-center">
-              <span class="material-icons-outlined mr-2 text-purple-500">fitness_center</span>
+              <span class="mr-2 text-purple-500">fitness_center</span>
               <span>{{ perfil.peso }} kg</span>
             </div>
             <div class="flex items-center">
-              <span class="material-icons-outlined mr-2 text-purple-500">height</span>
+              <span class=" mr-2 text-purple-500">height</span>
               <span>{{ perfil.altura }} cm</span>
             </div>
             <div class="flex items-center">
-              <span class="material-icons-outlined mr-2 text-purple-500">wc</span>
+              <span class=" mr-2 text-purple-500">wc</span>
               <span class="capitalize">{{ perfil.genero }}</span>
             </div>
           </div>
@@ -102,12 +102,6 @@ export default {
 </script>
 
 <style scoped>
-/* Material Icons Outlined */
-@import url('https://fonts.googleapis.com/css2?family=Material+Icons+Outlined');
 
-.material-icons-outlined {
-  font-family: 'Material Icons Outlined';
-  font-size: 20px;
-  line-height: 1;
-}
+
 </style>

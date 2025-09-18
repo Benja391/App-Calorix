@@ -176,12 +176,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Material+Icons+Outlined');
-
-.material-icons-outlined {
-  font-family: 'Material Icons Outlined';
-}
-
 [v-cloak] {
   display: none;
 }
