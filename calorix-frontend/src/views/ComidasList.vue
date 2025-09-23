@@ -1,13 +1,27 @@
 <template v-cloak>
   <div class="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
     <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg overflow-hidden">
-      
       <!-- Cabecera degradada -->
       <div class="h-32 bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center">
         <h1 class="text-3xl font-bold text-white">Registrar Comida</h1>
       </div>
-      
       <div class="px-8 py-6 space-y-8">
+        <!-- Resumen Nutricional Personalizado -->
+        <div class="mb-4 p-4 bg-gray-50 border border-lime-400 rounded-lg shadow-sm text-center">
+          <div v-if="perfilUsuario">
+            <div class="mb-2 font-semibold text-gray-800">
+              Hoy consumiste <span class="text-purple-600">{{ totalCalorias }}</span> kcal de <span class="text-lime-600">{{ requerimientoDiario }}</span> kcal recomendadas para tu perfil.
+            </div>
+            <div class="text-sm text-gray-600">
+              Eso es un <span :class="porcentajeConsumido > 100 ? 'text-red-600 font-bold' : 'text-teal-700'">{{ porcentajeConsumido }}</span>% de tu requerimiento diario.
+            </div>
+            <div v-if="porcentajeConsumido > 100" class="mt-2 text-xs text-red-500 font-semibold">¡Cuidado! Has superado tu requerimiento calórico recomendado.</div>
+          </div>
+          <div v-else class="text-gray-500">
+            Completa tu perfil para ver tu requerimiento calórico personalizado.
+          </div>
+        </div>
+
         <!-- Formulario -->
         <form
           @submit.prevent="agregarComida"
@@ -25,7 +39,7 @@
                      focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
-  
+
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">
               Calorías <span class="text-gray-400">(opcional)</span>
@@ -45,7 +59,7 @@
               {{ mensajeError }}
             </div>
           </div>
-  
+
           <button
             type="submit"
             class="w-full bg-purple-600 text-white py-3 rounded-full
@@ -54,15 +68,14 @@
             Guardar
           </button>
         </form>
-  
+
         <hr class="border-gray-200" />
-  
+
         <!-- Lista de comidas -->
         <div>
           <h2 class="text-2xl font-semibold text-purple-700 text-center mb-4">
             Comidas registradas
           </h2>
-  
           <ul v-if="comidas.length" class="space-y-4">
             <li
               v-for="comida in comidas"
@@ -77,7 +90,6 @@
                 </span>
                 <span v-else class="text-gray-400 italic">(sin calorías)</span>
               </span>
-  
               <button
                 @click="eliminarComida(comida._id)"
                 class="text-red-500 hover:text-red-600 transition"
@@ -99,7 +111,6 @@
               </button>
             </li>
           </ul>
-  
           <p v-else class="text-gray-500 italic text-center">
             No hay comidas registradas.
           </p>
@@ -110,22 +121,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { obtenerCaloriasDesdeAPI } from '../utils/apiNutricion'
 
-// estados reactivos
+// Estados reactivos
 const nombre = ref('')
 const calorias = ref(null)
 const comidas = ref([])
 const mensajeError = ref('')
 
-// listas locales
+// Perfil del usuario
+const perfilUsuario = ref(null)
+
+// Listas locales
 const alimentosBase = { 'arroz': 130, 'pollo': 239, 'huevo': 155, 'pan': 265, 'leche': 60 }
 const frutasVerduras = { 'manzana': 52, 'banana': 89, 'pera': 57, 'naranja': 47, 'papa': 77 }
 const traducciones = { 'osobuco': 'beef shank', 'vacío': 'flank steak', 'fideos': 'pasta' }
 
-// cargar comidas desde backend
+// Cargar comidas desde backend
 const cargarComidas = async () => {
   try {
     const res = await axios.get('http://localhost:3000/api/comidas')
@@ -135,7 +149,7 @@ const cargarComidas = async () => {
   }
 }
 
-// buscar calorías
+// Buscar calorías
 const buscarCalorias = async () => {
   mensajeError.value = '' // limpiar mensaje
 
@@ -143,7 +157,7 @@ const buscarCalorias = async () => {
 
   let comida = nombre.value.toLowerCase()
 
-  // listas locales
+  // Listas locales
   if (alimentosBase[comida]) {
     calorias.value = alimentosBase[comida]
     return
@@ -153,7 +167,7 @@ const buscarCalorias = async () => {
     return
   }
 
-  // traducción
+  // Traducción
   if (traducciones[comida]) {
     comida = traducciones[comida]
   }
@@ -173,7 +187,7 @@ const buscarCalorias = async () => {
   }
 }
 
-// guardar comida (create/update)
+// Guardar comida (create/update)
 const agregarComida = async () => {
   try {
     if (!nombre.value || nombre.value.trim() === "") {
@@ -181,7 +195,7 @@ const agregarComida = async () => {
       return
     }
 
-    // si existe ya sin calorías → actualizar
+    // Si existe ya sin calorías → actualizar
     const existe = comidas.value.find(c => c.nombre.toLowerCase() === nombre.value.toLowerCase())
     if (existe && existe.calorias === null && calorias.value) {
       await axios.put(`http://localhost:3000/api/comidas/${nombre.value}`, { calorias: calorias.value })
@@ -192,7 +206,7 @@ const agregarComida = async () => {
 
     await cargarComidas()
 
-    // limpiar solo si la comida está completa
+    // Limpiar solo si la comida está completa
     if (calorias.value !== null) {
       nombre.value = ''
       calorias.value = null
@@ -212,8 +226,48 @@ const eliminarComida = async (id) => {
   }
 }
 
+// Calorías totales consumidas hoy (suma de todas las comidas registradas)
+const totalCalorias = computed(() =>
+  comidas.value.reduce((acc, c) => acc + (c.calorias || 0), 0)
+)
+
+// Fórmula de requerimiento calórico diario personalizada
+function calcularRequerimientoDiario(perfil) {
+  if (!perfil || !perfil.peso || !perfil.altura || !perfil.edad || !perfil.genero) return null
+
+  // Mifflin-St Jeor: Metabolismo basal (kcal/día)
+  let tmb
+  if (perfil.genero === 'masculino') {
+    tmb = 10 * perfil.peso + 6.25 * perfil.altura - 5 * perfil.edad + 5
+  } else if (perfil.genero === 'femenino') {
+    tmb = 10 * perfil.peso + 6.25 * perfil.altura - 5 * perfil.edad - 161
+  } else {
+    tmb = 10 * perfil.peso + 6.25 * perfil.altura - 5 * perfil.edad - 78 // promedio entre hombre y mujer
+  }
+  // Multiplica por nivel de actividad (1.4 = actividad ligera)
+  return Math.round(tmb * 1.4)
+}
+
+// Requerimiento diario personalizado
+const requerimientoDiario = computed(() => {
+  return perfilUsuario.value ? calcularRequerimientoDiario(perfilUsuario.value) : null
+})
+
+// Porcentaje consumido
+const porcentajeConsumido = computed(() => {
+  if (!requerimientoDiario.value || requerimientoDiario.value === 0) return 0
+  return Math.round((totalCalorias.value / requerimientoDiario.value) * 100)
+})
+
+// Cargar perfil desde localStorage
+function cargarPerfil() {
+  const perfil = localStorage.getItem('perfilUsuario')
+  if (perfil) perfilUsuario.value = JSON.parse(perfil)
+  else perfilUsuario.value = null
+}
 
 onMounted(() => {
+  cargarPerfil()
   cargarComidas()
 })
 </script>

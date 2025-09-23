@@ -8,9 +8,9 @@ const userSchema = new mongoose.Schema({
     edad: Number,
     peso: Number,
     altura: Number,
-    genero: String
+    genero: String,
+    avatar: String // <--- NUEVO CAMPO
   }
 });
-
 
 module.exports = mongoose.model('Usuario', userSchema);

@@ -1,20 +1,16 @@
 <template v-cloak>
  <div class="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
     <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg overflow-hidden">
-      
       <!-- Cabecera degradada -->
       <div class="h-32 bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center">
         <h1 class="text-3xl font-bold text-white">Registrar entrenamientos</h1>
       </div>
-      
       <div class="px-8 py-6 space-y-8">
         <!-- Formulario -->
         <form
           @submit.prevent="agregarEntrenamiento"
           class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm space-y-6"
         >
-         
-
           <!-- Nombre -->
           <div>
             <label class="block text-gray-700 mb-1 font-medium">
@@ -29,7 +25,6 @@
                      focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
-
           <!-- Duración flexible -->
           <div>
             <label class="block text-gray-700 mb-2 font-medium">
@@ -48,7 +43,6 @@
                          focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
-              
               <!-- Minutos -->
               <div>
                 <label class="block text-sm text-gray-600 mb-1">Minutos</label>
@@ -64,7 +58,6 @@
               </div>
             </div>
           </div>
-
           <!-- Descripción -->
           <div>
             <label class="block text-gray-700 mb-1 font-medium">
@@ -78,7 +71,6 @@
                      focus:outline-none focus:ring-2 focus:ring-purple-500"
             ></textarea>
           </div>
-
           <!-- Botón -->
           <button
             type="submit"
@@ -88,15 +80,12 @@
             Agregar
           </button>
         </form>
-
         <hr class="border-gray-200" />
-
         <!-- Lista de entrenamientos -->
         <div>
           <h2 class="text-2xl font-semibold text-purple-700 text-center mb-4">
             📋 Entrenamientos registrados
           </h2>
-
           <ul v-if="entrenamientos.length" class="space-y-4">
             <li
               v-for="entrenamiento in entrenamientos"
@@ -131,7 +120,6 @@
               </button>
             </li>
           </ul>
-
           <p v-else class="text-gray-500 italic text-center">
             No hay entrenamientos registrados.
           </p>
@@ -169,7 +157,6 @@ const tasasBase = {
   crossfit: 14
 }
 
-// Factores por intensidad detectada en la descripción
 const intensidades = {
   suave: 0.7,
   ligera: 0.8,
@@ -181,8 +168,8 @@ const intensidades = {
   rápido: 1.3,
 }
 
-// Calcular calorías
-const calcularCalorias = (nombre, descripcion, duracionMin) => {
+// Calcular calorías ajustadas por perfil
+const calcularCalorias = (nombre, descripcion, duracionMin, pesoUsuario = 70) => {
   const key = Object.keys(tasasBase).find(k => nombre.toLowerCase().includes(k))
   const base = key ? tasasBase[key] : 5 // default si no está en la lista
 
@@ -195,9 +182,11 @@ const calcularCalorias = (nombre, descripcion, duracionMin) => {
     }
   }
 
-  const calorias = Math.round(base * duracionMin * factor)
+  // Ajuste por peso: gasto calórico proporcional
+  // Fórmula: calorías = base * duracion * factor * (pesoUsuario / 70)
+  const calorias = Math.round(base * duracionMin * factor * (pesoUsuario / 70))
 
-  // 🔎 DEBUG: mostramos cómo se calculó
+  // 🔎 DEBUG
   console.log("🔎 Calculo de calorías:", {
     actividad: nombre,
     claveDetectada: key || "default",
@@ -205,6 +194,7 @@ const calcularCalorias = (nombre, descripcion, duracionMin) => {
     descripcion,
     factor,
     duracionMin,
+    pesoUsuario,
     calorias
   })
 
@@ -227,7 +217,15 @@ const agregarEntrenamiento = async () => {
     const duracionMin = (horas.value * 60) + minutos.value
     if (!nombre.value || duracionMin <= 0) return
 
-    const calorias = calcularCalorias(nombre.value, descripcion.value, duracionMin)
+    // Obtener el perfil del usuario desde localStorage
+    let pesoUsuario = 70 // default si no hay perfil
+    const perfil = localStorage.getItem('perfilUsuario')
+    if (perfil) {
+      const perfilObj = JSON.parse(perfil)
+      if (perfilObj.peso) pesoUsuario = perfilObj.peso
+    }
+
+    const calorias = calcularCalorias(nombre.value, descripcion.value, duracionMin, pesoUsuario)
 
     const nuevo = {
       nombre: nombre.value,

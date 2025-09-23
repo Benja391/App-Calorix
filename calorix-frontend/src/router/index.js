@@ -7,6 +7,7 @@ import Register from  '../views/register.vue'
 import Perfil from '../views/FormPerfil.vue'
 import MiPerfil from '../views/MiPerfil.vue'
 import Home from '../views/Home.vue'
+import EditarPerfil from '../views/EditarPerfil.vue'
 
 
 
@@ -19,7 +20,9 @@ const routes = [
   { path: '/register', component: Register, meta: { guest: true } },
   { path: '/perfil', component: Perfil, meta: { auth: true } },
   { path: '/miperfil', component: MiPerfil, meta: { auth: true } },
-   { path: '/home', component: Home, meta: { auth: true } },
+  { path: '/home', component: Home, meta: { auth: true } },
+  { path: '/editar-perfil', component: EditarPerfil, meta: { auth: true } },
+
 ]
 
 const router = createRouter({
