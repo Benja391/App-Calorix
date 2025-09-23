@@ -1,28 +1,36 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { auth } from '../auth'
-import ComidasList from '../views/ComidasList.vue'
-import Entrenamientos from '../views/Entrenamientos.vue'
-import Login from '../views/Login.vue'
-import Register from  '../views/register.vue'
-import Perfil from '../views/FormPerfil.vue'
-import MiPerfil from '../views/MiPerfil.vue'
 import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import MiPerfil from '../views/MiPerfil.vue'
+import Comidas from '../views/ComidasList.vue'
+import Entrenamientos from '../views/Entrenamientos.vue'
 import EditarPerfil from '../views/EditarPerfil.vue'
 
-
-
-
 const routes = [
-  { path: '/', redirect: '/comidas' },
-  { path: '/comidas', component: ComidasList },
-  { path: '/entrenamientos', component: Entrenamientos },
-  { path: '/login',    component: Login,    meta: { guest: true } },
-  { path: '/register', component: Register, meta: { guest: true } },
-  { path: '/perfil', component: Perfil, meta: { auth: true } },
-  { path: '/miperfil', component: MiPerfil, meta: { auth: true } },
-  { path: '/home', component: Home, meta: { auth: true } },
-  { path: '/editar-perfil', component: EditarPerfil, meta: { auth: true } },
-
+  { path: '/home', component: Home },
+  { path: '/login', component: Login },
+  { path: '/register', component: Register },
+  {
+    path: '/miperfil',
+    component: MiPerfil,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/comidas',
+    component: Comidas,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/entrenamientos',
+    component: Entrenamientos,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/editar-perfil',
+    component: EditarPerfil,
+    meta: { requiresAuth: true }
+  }
 ]
 
 const router = createRouter({
@@ -30,6 +38,14 @@ const router = createRouter({
   routes
 })
 
-
+// ✅ Guard global
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (to.meta.requiresAuth && !token) {
+    next('/login')
+  } else {
+    next()
+  }
+})
 
 export default router

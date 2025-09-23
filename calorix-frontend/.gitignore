@@ -26,3 +26,7 @@ dist-ssr
 # Environment files
 .env
 .env.*
+
+
+# Archivos específicos a ignorar
+MVP_Checklist_Automatico.xlsx
