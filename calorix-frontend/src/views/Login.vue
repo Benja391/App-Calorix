@@ -100,27 +100,36 @@ export default {
 
       this.loading = true;
 
-      try {
-        const { data } = await axios.post('http://localhost:3000/api/users/login', {
-          email: this.email,
-          password: this.password
-        });
+    try {
+  const { data } = await axios.post('http://localhost:3000/api/users/login', {
+    email: this.email,
+    password: this.password
+  });
 
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.userId);
-        auth.token = data.token;
-        auth.userId = data.userId;
+  localStorage.setItem('token', data.token);
+  localStorage.setItem('userId', data.userId);
+  auth.token = data.token;
+  auth.userId = data.userId;
 
-        try {
-          await axios.get(`http://localhost:3000/api/users/${data.userId}/profile`, {
-            headers: { Authorization: `Bearer ${data.token}` }
-          });
-          this.$router.push('/comidas');
-        } catch (errProfile) {
-          this.$router.push(errProfile.response?.status === 404 ? '/perfil' : '/comidas');
-        }
-      } catch (err) {
-        this.error = err.response?.data?.error || 'Credenciales inválidas';
+  console.log("🔑 Token que estoy mandando:", data.token);
+
+  // 🔹 PEDÍ EL PERFIL DESPUÉS DEL LOGIN
+  const { data: profileData } = await axios.get(
+    `http://localhost:3000/api/users/${data.userId}/profile`,
+    { headers: { Authorization: `Bearer ${data.token}` } }
+  );
+
+   console.log("🔎 profileData recibido:", profileData);
+
+  // 🔹 Guardalo en localStorage y en el estado reactivo
+  localStorage.setItem('perfil', JSON.stringify(profileData));
+  auth.perfil = profileData;
+
+    console.log("✅ auth.perfil ahora es:", auth.perfil);
+
+  this.$router.push('/comidas');
+} catch (err) {
+  this.error = err.response?.data?.error || 'Credenciales inválidas';
       } finally {
         this.loading = false;
       }

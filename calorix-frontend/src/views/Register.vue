@@ -73,6 +73,7 @@
 
 <script>
 import axios from 'axios';
+import { auth } from '../auth';
 
 export default {
   name: 'Register',
@@ -107,6 +108,15 @@ export default {
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.userId);
+// actualizar estado global
+auth.token = data.token;
+auth.userId = data.userId;
+
+// 🔹 pedir perfil inmediatamente
+const profileRes = await axios.get(`http://localhost:3000/api/users/${data.userId}/profile`, {
+  headers: { Authorization: `Bearer ${data.token}` }
+});
+        localStorage.setItem('perfil', JSON.stringify(auth.perfil));
         this.$router.push('/perfil');
       } catch (err) {
         this.error = err.response?.data?.error || 'Error al registrarse';

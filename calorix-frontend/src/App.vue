@@ -59,9 +59,9 @@
           <!-- Si está logueado -->
           <div v-if="isLoggedIn" class="relative group">
  <img
-  :src="perfil && perfil.avatar && perfil.avatar.trim() !== '' 
-    ? perfil.avatar 
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(perfil?.nombre || 'User')}&background=random`"
+  :src="auth.perfil && auth.perfil.avatar && auth.perfil.avatar.trim() !== '' 
+   ? auth.perfil.avatar 
+   : `https://ui-avatars.com/api/?name=${encodeURIComponent(auth.perfil?.nombre || 'User')}&background=random`"
   alt="avatar"
   class="w-8 h-8 rounded-full border-2 border-purple-600 cursor-pointer"
 />
@@ -167,25 +167,15 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { auth } from './auth';
+import { useRouter } from 'vue-router';
 
-const router = useRouter();
-const mobileMenu = ref(false);
+const router = useRouter(); // 👈 esto te da acceso al router
+const mobileMenu = ref(false); // 👈 lo que te falta
 
-// Datos del perfil
-const perfil = ref({
-  nombre: 'User',
-  avatar: ''
-});
 
-onMounted(() => {
-  // Al montar, cargamos el perfil desde localStorage si existe
-  const storedPerfil = localStorage.getItem('perfil');
-  if (storedPerfil) {
-    perfil.value = JSON.parse(storedPerfil);
-  }
-});
+
+
 
 const navItems = [
   { to: '/home',           label: 'Home' },
@@ -193,7 +183,11 @@ const navItems = [
   { to: '/entrenamientos', label: 'Entrenamientos' }
 ];
 
-const isLoggedIn = computed(() => !!auth.token);
+const isLoggedIn = computed(() => {
+  console.log("🔎 auth.token actual:", auth.token);
+  console.log("🔎 auth.perfil actual:", auth.perfil);
+  return !!auth.token;
+});
 
 function logout() {
   localStorage.removeItem('token');
@@ -201,7 +195,7 @@ function logout() {
   localStorage.removeItem('perfil');
   auth.token  = null;
   auth.userId = null;
-  perfil.value = { nombre: '', avatar: '' };
+  auth.perfil = {};
   router.push('/login');
 }
 
