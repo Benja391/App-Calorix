@@ -37,7 +37,7 @@ Editar
      - Carga de comidas en `onMounted()`
 
 5. Conexión frontend-backend:
-   - Se usó `axios` para hacer peticiones GET y POST a `http://localhost:3000/api/comidas`
+   - Se usó `axios` para hacer peticiones GET y POST a `https://app-calorix.onrender.com/api/comidas`
    - Se agregó la librería `axios` con: `npm install axios`
 
 6. Autocompletado de calorías:

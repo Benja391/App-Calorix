@@ -164,7 +164,7 @@ async function obtenerCaloriasInteligente(nombre) {
 // ==============================
 const cargarComidas = async () => {
   try {
-    const res = await axios.get("http://localhost:3000/api/comidas", {
+    const res = await axios.get("https://app-calorix.onrender.com/api/comidas", {
       headers: { Authorization: `Bearer ${token}` },
     });
     comidas.value = res.data;
@@ -196,7 +196,7 @@ const agregarComida = async () => {
       calorias: caloriasTotales,
     };
 
-    const { data } = await axios.post("http://localhost:3000/api/comidas", nueva, {
+    const { data } = await axios.post("https://app-calorix.onrender.com/api/comidas", nueva, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -223,7 +223,7 @@ const agregarComida = async () => {
 // ==============================
 const eliminarComida = async (id) => {
   try {
-    await axios.delete(`http://localhost:3000/api/comidas/${id}`, {
+    await axios.delete(`https://app-calorix.onrender.com/api/comidas/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     comidas.value = comidas.value.filter((c) => c._id !== id);

@@ -103,7 +103,7 @@ export default {
 
   try {
     const { data } = await axios.get(
-      `http://localhost:3000/api/users/${userId}/profile`,
+      `https://app-calorix.onrender.com/api/users/${userId}/profile`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -126,7 +126,7 @@ export default {
 
       try {
         await axios.put(
-          `http://localhost:3000/api/users/${userId}/profile`,
+          `https://app-calorix.onrender.com/api/users/${userId}/profile`,
           this.perfil,
           { headers: { Authorization: `Bearer ${token}` } }
         );

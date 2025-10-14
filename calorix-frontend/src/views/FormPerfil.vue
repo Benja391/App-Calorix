@@ -132,7 +132,7 @@ export default {
 
   try {
    const res = await axios.put(
-  `http://localhost:3000/api/users/${userId}/profile`,
+  `https://app-calorix.onrender.com/api/users/${userId}/profile`,
   {
     
     edad: this.edad,

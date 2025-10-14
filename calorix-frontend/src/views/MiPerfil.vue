@@ -98,7 +98,7 @@ export default {
 
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/users/${userId}/profile`,
+        `https://app-calorix.onrender.com/api/users/${userId}/profile`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       this.perfil = data
