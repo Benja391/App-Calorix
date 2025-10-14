@@ -7,7 +7,9 @@ import Comidas from '../views/ComidasList.vue'
 import Entrenamientos from '../views/Entrenamientos.vue'
 import EditarPerfil from '../views/EditarPerfil.vue'
 import MiPerfil from '../views/MiPerfil.vue'
+import CompletarPerfil from '../views/CompletarPerfil.vue'
 import { isTokenExpired } from '../auth'; // 👈 importa la función
+
 
 const routes = [
   { path: '/', component: Home },
@@ -18,7 +20,7 @@ const routes = [
     component: FormPerfil,
     meta: { requiresAuth: true }
   },
-    {
+  {
     path: '/miperfil',       // 🔹 ver perfil
     component: MiPerfil,
     meta: { requiresAuth: true }
@@ -46,7 +48,11 @@ const routes = [
    {
     path: '/home',
     component: Home,
-
+  },
+    {
+    path: '/completar-perfil',       // 🔹 ver perfil
+    component: CompletarPerfil,
+    meta: { requiresAuth: true }
   }
 ]
 

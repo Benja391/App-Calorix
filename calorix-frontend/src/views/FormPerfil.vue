@@ -12,18 +12,7 @@
     </h2>
 
     <form @submit.prevent="submitPerfil">
-      <!-- Nombre -->
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
-        <input
-          v-model="nombre"
-          type="text"
-          placeholder="Ingrese su nombre"
-          class="w-full px-4 py-2 rounded-lg border border-gray-300
-                 focus:outline-none focus:ring-2 focus:ring-lime-500"
-        />
-        <p v-if="errors.nombre" class="text-red-500 text-sm mt-1">{{ errors.nombre }}</p>
-      </div>
+     
 
       <!-- Edad -->
       <div class="mb-6">
@@ -110,7 +99,6 @@ export default {
   name: 'Perfil',
   data() {
     return {
-      nombre: '',
       edad: null,
       peso: null,
       altura: null,
@@ -125,7 +113,6 @@ export default {
   this.errors = {};
 
   // Validación previa
-  if (!this.nombre) this.errors.nombre = 'Este campo es obligatorio';
   if (!this.edad || this.edad < 1) this.errors.edad = 'Este campo es obligatorio';
   if (!this.peso || this.peso < 1) this.errors.peso = 'Este campo es obligatorio';
   if (!this.altura || this.altura < 100 || this.altura > 250) {
@@ -147,7 +134,7 @@ export default {
    const res = await axios.put(
   `http://localhost:3000/api/users/${userId}/profile`,
   {
-    nombre: this.nombre,
+    
     edad: this.edad,
     peso: this.peso,
     altura: this.altura,
@@ -160,7 +147,7 @@ export default {
 
     // Guardar en localStorage
     localStorage.setItem('perfilUsuario', JSON.stringify({
-      nombre: this.nombre,
+   
       edad: this.edad,
       peso: this.peso,
       altura: this.altura,

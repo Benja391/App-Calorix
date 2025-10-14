@@ -12,15 +12,7 @@
         <div class="px-6 py-8">
           <form @submit.prevent="guardarPerfil" class="space-y-6">
             
-            <!-- Nombre -->
-            <div>
-              <label class="block text-sm font-semibold text-gray-700">Nombre</label>
-              <input
-                v-model="perfil.nombre"
-                type="text"
-                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-            </div>
+           
 
             <!-- Edad -->
             <div>
@@ -97,7 +89,6 @@ export default {
   data() {
     return {
       perfil: {
-        nombre: "",
         edad: "",
         peso: "",
         altura: "",
