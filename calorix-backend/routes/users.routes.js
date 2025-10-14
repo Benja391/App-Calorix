@@ -96,26 +96,25 @@ router.get('/:id/profile', authMiddleware, async (req, res) => {
 router.put('/:id/profile', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, apellido, email, telefono, edad, peso, altura, genero, avatar } = req.body;
+    const { nombre, edad, peso, altura, genero, avatar } = req.body;
 
     const user = await User.findById(id);
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
 
+    // Verificar que el usuario autenticado es el dueño
     if (user._id.toString() !== req.userId) {
       return res.status(403).json({ error: 'No autorizado' });
     }
 
-    // Normalizar altura (por si el front la envía en metros)
+    // Normalizar altura: si es < 3, se interpreta como metros
     let alturaFinal = user.profile?.altura;
     if (altura !== undefined) {
       alturaFinal = altura < 3 ? Math.round(Number(altura) * 100) : Number(altura);
     }
 
+    // Actualizar perfil
     user.profile = {
       nombre: nombre ?? user.profile?.nombre,
-      apellido: apellido ?? user.profile?.apellido,
-      email: email ?? user.profile?.email,
-      telefono: telefono ?? user.profile?.telefono,
       edad: edad ?? user.profile?.edad,
       peso: peso ?? user.profile?.peso,
       altura: alturaFinal,

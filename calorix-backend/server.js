@@ -17,20 +17,16 @@ app.use('/api/comidas', comidaRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/entrenamientos', entrenamientoRoutes);
 
-// ✅ Servir el frontend (dist dentro de public)
-const __dirnamePath = path.resolve();
-app.use(express.static(path.join(__dirnamePath, 'public')));
-
-// Cualquier ruta que no sea API → devuelve index.html
+// SERVIR EL FRONTEND (importantísimo en Render)
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirnamePath, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // 🚀 Conectar a MongoDB y levantar el server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ Conectado a MongoDB');
-
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
   })
