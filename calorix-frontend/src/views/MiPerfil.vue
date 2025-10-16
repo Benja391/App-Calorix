@@ -57,14 +57,6 @@
               Editar Perfil
             </router-link>
 
-            <!-- NUEVO: Botón Completar Perfil -->
-            <router-link
-              v-if="!perfilCompleto"
-              to="/completar-perfil"
-              class="bg-[#08a04b] text-white px-6 py-2 rounded-full hover:bg-[#0aaf57] transition shadow-md"
-            >
-              Completar Perfil
-            </router-link>
           </div>
         </div>
       </div>

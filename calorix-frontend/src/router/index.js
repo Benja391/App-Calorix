@@ -7,6 +7,7 @@ import Comidas from '../views/ComidasList.vue'
 import Entrenamientos from '../views/Entrenamientos.vue'
 import EditarPerfil from '../views/EditarPerfil.vue'
 import MiPerfil from '../views/MiPerfil.vue'
+
 import { isTokenExpired } from '../auth'; // 👈 importa la función
 
 
@@ -39,11 +40,7 @@ const routes = [
     component: Entrenamientos,
     meta: { requiresAuth: true }
   },
-  {
-    path: '/editar-perfil',
-    component: EditarPerfil,
-    meta: { requiresAuth: true }
-  },
+ 
    {
     path: '/home',
     component: Home,

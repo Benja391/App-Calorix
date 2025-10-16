@@ -98,6 +98,10 @@
         </div>
       </nav>
 
+      
+
+ 
+
       <!-- Menú móvil -->
       <transition name="slide-down">
         <div
@@ -163,6 +167,16 @@
       </main>
     </div>
   </div>
+
+  <!-- ✅ Botón flotante siempre visible -->
+<a
+  href="https://docs.google.com/forms/d/e/1FAIpQLScnTn6wI4otgvHUWV2YOvwNK-nQ-I2rc0dRi1Dh1f7wo6o-sQ/viewform"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="fixed bottom-6 right-6 bg-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-700 transition-all text-lg font-semibold z-[9999]"
+>
+  📩 Contáctanos
+</a>
 </template>
 
 <script setup>

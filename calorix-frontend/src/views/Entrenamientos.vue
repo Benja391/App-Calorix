@@ -204,7 +204,7 @@ const calcularCalorias = (nombre, descripcion, duracionMin, pesoUsuario = 70) =>
 // Cargar entrenamientos desde backend
 const cargarEntrenamientos = async () => {
   try {
-    const response = await axios.get('https://app-calorix.onrender.com/api/entrenamientos')
+    const response = await axios.get('http://localhost:3000/api/entrenamientos')
     entrenamientos.value = response.data
   } catch (error) {
     console.error('❌ Error al obtener entrenamientos:', error)
@@ -234,7 +234,7 @@ const agregarEntrenamiento = async () => {
       descripcion: descripcion.value
     }
 
-    await axios.post('https://app-calorix.onrender.com/api/entrenamientos', nuevo)
+    await axios.post('http://localhost:3000/api/entrenamientos', nuevo)
     nombre.value = ''
     horas.value = 0
     minutos.value = 0
@@ -247,7 +247,7 @@ const agregarEntrenamiento = async () => {
 
 const eliminarEntrenamiento = async (id) => {
   try {
-    await axios.delete(`https://app-calorix.onrender.com/api/entrenamientos/${id}`);
+    await axios.delete(`http://localhost:3000/api/entrenamientos/${id}`);
     entrenamientos.value = entrenamientos.value.filter(e => e._id !== id);
   } catch (err) {
     console.error('❌ Error al eliminar entrenamiento:', err);

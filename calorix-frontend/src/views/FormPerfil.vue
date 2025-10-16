@@ -3,13 +3,6 @@
     class="max-w-md mx-auto mt-24 px-8 py-10
            bg-gray-50 rounded-2xl shadow-xl border border-lime-300"
   >
-    <h2
-      class="text-3xl font-extrabold text-center mb-8
-             text-transparent bg-clip-text
-             bg-gradient-to-r from-purple-600 via-teal-500 to-lime-500"
-    >
-      Completar perfil
-    </h2>
 
     <form @submit.prevent="submitPerfil">
      
@@ -147,7 +140,6 @@ export default {
 
     // Guardar en localStorage
     localStorage.setItem('perfilUsuario', JSON.stringify({
-   
       edad: this.edad,
       peso: this.peso,
       altura: this.altura,
