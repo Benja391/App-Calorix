@@ -162,10 +162,18 @@
       </router-link>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 py-6 px-4 text-center">
-      <p>© 2025 Calorix. Todos los derechos reservados.</p>
-    </footer>
+   <!-- Footer -->
+<footer class="bg-gray-800 text-gray-400 py-6 px-4 text-center">
+  <p>© 2025 <span class="text-white font-semibold">Calorix</span>. Todos los derechos reservados.</p>
+  <p class="mt-2">
+    Propiedad de: <span class="text-white font-medium">María José Bosch</span><br>
+    CUIT: <span class="text-white font-medium">20-34750944-3</span><br>
+    Mail: 
+    <a href="mailto:mariabosch1289@gmail.com" class="text-white hover:underline">
+      mariabosch1289@gmail.com
+    </a>
+  </p>
+</footer>
   </div>
 </template>
 
