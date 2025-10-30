@@ -125,7 +125,7 @@ export default {
 
   try {
    const res = await axios.put(
-  `https://app-calorix.onrender.com/api/users/${userId}/profile`,
+  `${import.meta.env.VITE_API_URL}/users/${userId}/profile`,
   {
     
     edad: this.edad,

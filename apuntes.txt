@@ -87,4 +87,13 @@ Email: benjabosch5@gmail.com
 nombre de usuario: benj123456
 Contraseña: k6hqE!!d6j4jMZ!
 
+##Pasos para entrar a la base a traves de la terminal
+1 - mongosh "mongodb+srv://benjaminbosch:gretelyolaf123@cluster0.1si9yrq.mongodb.net/caloriDB"
+2 - show dbs (para mostrar las bases)
+3 - use caloriDB (con este comando entramos a la nuestra)
+4 - show collections (para mirar las colecciones)
+5 - 
+
+#VITE_API_URL=${import.meta.env.VITE_API_URL} (cuando lo quiera usar o cambiar localmente en mi PC)
+#VITE_API_URL=${import.meta.env.VITE_API_URL} (cuando lo quiera usar desplegado)
 

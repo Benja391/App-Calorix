@@ -102,7 +102,7 @@ export default {
 
     try {
       const { data } = await axios.get(
-        `https://app-calorix.onrender.com/api/users/${userId}/profile`,
+        `${import.meta.env.VITE_API_URL}/users/${userId}/profile`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       this.perfil = data

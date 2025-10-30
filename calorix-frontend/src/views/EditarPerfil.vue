@@ -103,7 +103,7 @@ export default {
 
   try {
     const { data } = await axios.get(
-      `https://app-calorix.onrender.com/api/users/${userId}/profile`,
+      `${import.meta.env.VITE_API_URL}/users/${userId}/profile`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -126,7 +126,7 @@ export default {
 
       try {
         await axios.put(
-          `https://app-calorix.onrender.com/api/users/${userId}/profile`,
+          `${import.meta.env.VITE_API_URL}/users/${userId}/profile`,
           this.perfil,
           { headers: { Authorization: `Bearer ${token}` } }
         );
